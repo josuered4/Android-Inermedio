@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.cursokotlinintermedio.R
 import com.example.cursokotlinintermedio.databinding.FragmentPalmistryBinding
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
+@AndroidEntryPoint
 class PalmistryFragment : Fragment() {
 
     private var _binding:FragmentPalmistryBinding? = null;

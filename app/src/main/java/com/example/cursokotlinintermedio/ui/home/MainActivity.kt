@@ -7,10 +7,11 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.cursokotlinintermedio.R
 import com.example.cursokotlinintermedio.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint //con esta anitacion indicamos que reciba dependencias de dagger
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding;
-
     private lateinit var navController:NavController;
     //NavController no ayuda con la gestion de navegacion con la libreria de Nav Component
 
