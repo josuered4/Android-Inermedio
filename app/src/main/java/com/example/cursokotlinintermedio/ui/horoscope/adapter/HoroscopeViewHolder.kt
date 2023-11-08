@@ -10,9 +10,10 @@ class HoroscopeViewHolder(view: View):RecyclerView.ViewHolder(view) {
 
     private val binding = ItemHoroscopeBinding.bind(view); //activamos el binding en el item
     fun render(horoscopeInfo: HoroscopeInfo, onItemSelected: (HoroscopeInfo) -> Unit){
+        val obtenerString = binding.tvTitle.context;
         //En esta funcion se renderiza un horoscopo a la vez
         binding.ivHoroscope.setImageResource(horoscopeInfo.img);
-        binding.tvTitle.text = binding.tvTitle.context.getString(horoscopeInfo.name);
+        binding.tvTitle.text = obtenerString.getString(horoscopeInfo.name);
         binding.parent.setOnClickListener{
              //ejecutamos la funcion que le pasamos y le damos el itme por argumento despues de la animacion
             starRotationAnimation(binding.ivHoroscope, newLambda = { onItemSelected(horoscopeInfo) });

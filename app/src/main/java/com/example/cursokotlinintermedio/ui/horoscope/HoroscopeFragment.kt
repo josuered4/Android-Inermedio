@@ -13,10 +13,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cursokotlinintermedio.R
 import com.example.cursokotlinintermedio.databinding.FragmentHoroscopeBinding
+import com.example.cursokotlinintermedio.domain.model.HoroscopeInfo
+import com.example.cursokotlinintermedio.domain.model.HoroscopeInfo.*
+import com.example.cursokotlinintermedio.domain.model.HoroscopeModel
 import com.example.cursokotlinintermedio.ui.horoscope.adapter.HoroscopeAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
@@ -61,7 +65,25 @@ class HoroscopeFragment : Fragment() {
     private fun initRecycleView() {
         //inicializamos la lista, pero pasamos una funcion que realizara cada item al ser precionado, solo la funcion a ejecutar
         adapter = HoroscopeAdapter(onItemSelected = {
-            item -> Toast.makeText(context, getString(item.name),Toast.LENGTH_LONG).show();
+            val type:HoroscopeModel = when(it){
+                Aquarius -> HoroscopeModel.Aquarius;
+                Aries -> HoroscopeModel.Aries;
+                Cancer -> HoroscopeModel.Cancer;
+                Capricorn -> HoroscopeModel.Capricorn;
+                Leo -> HoroscopeModel.Leo;
+                Libra -> HoroscopeModel.Libra;
+                Pices -> HoroscopeModel.Pices;
+                Sagittarius -> HoroscopeModel.Sagittarius;
+                Scorpio -> HoroscopeModel.Scorpio;
+                Tauro -> HoroscopeModel.Tauro;
+                Virgo -> HoroscopeModel.Virgo;
+                Gemini -> HoroscopeModel.Gemini;
+            }
+
+            //Esta funcion es parte de la libreria usada para la navegacion segura
+            findNavController().navigate(
+                HoroscopeFragmentDirections.actionHoroscopeFragmentToHoroscopeDetailActivity(type)
+            );
         });
         //binding.rvHoroscope.layoutManager = LinearLayoutManager(context) //organiza los item del recycleview, en este caso esta en vertical
         binding.rvHoroscope.layoutManager = GridLayoutManager(context, 2); //cambiamos el linear por un Grid con 2 column

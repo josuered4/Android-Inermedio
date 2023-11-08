@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt") //agregamos el que genera los objetos
     id("com.google.dagger.hilt.android") //agregamos dagger
+    id ("androidx.navigation.safeargs.kotlin") //activamos la dependencia
 }
 
 android {
@@ -33,7 +34,7 @@ android {
         jvmTarget = "1.8"
     }
     viewBinding {
-        enable=true
+        enable = true
     }
 }
 
@@ -44,10 +45,9 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$navComponent")
     implementation("androidx.navigation:navigation-ui-ktx:$navComponent")
 
-    //Dagger Hilt
-    val daggerHilt = "2.48";
-    implementation ("com.google.dagger:hilt-android:$daggerHilt") //inyecta
-    kapt ("com.google.dagger:hilt-android-compiler:$daggerHilt") //Este auto genera el codigo
+    //DaggerHilt
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-compiler:2.48") //Este auto genera el codigo
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
