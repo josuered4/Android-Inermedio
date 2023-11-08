@@ -1,6 +1,7 @@
 package com.example.cursokotlinintermedio.ui.horoscope.adapter
 
 import android.view.View
+import android.view.animation.LinearInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cursokotlinintermedio.databinding.ItemHoroscopeBinding
 import com.example.cursokotlinintermedio.domain.model.HoroscopeInfo
@@ -13,7 +14,17 @@ class HoroscopeViewHolder(view: View):RecyclerView.ViewHolder(view) {
         binding.ivHoroscope.setImageResource(horoscopeInfo.img);
         binding.tvTitle.text = binding.tvTitle.context.getString(horoscopeInfo.name);
         binding.parent.setOnClickListener{
-            onItemSelected(horoscopeInfo); //ejecutamos la funcion que le pasamos y le damos el itme por argumento
+             //ejecutamos la funcion que le pasamos y le damos el itme por argumento despues de la animacion
+            starRotationAnimation(binding.ivHoroscope, newLambda = { onItemSelected(horoscopeInfo) });
+        }
+    }
+    private fun starRotationAnimation(view:View, newLambda:()->Unit){
+        view.animate().apply {
+            duration = 500;
+            interpolator = LinearInterpolator();
+            rotationBy(360f);
+            withEndAction{newLambda()} //funcion a ejecutar
+            start()
         }
     }
 }
