@@ -1,14 +1,14 @@
 package com.example.cursokotlinintermedio.ui.horoscope.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cursokotlinintermedio.R
 import com.example.cursokotlinintermedio.domain.model.HoroscopeInfo
-import kotlin.math.log
 
-class HoroscopeAdapter(private var horoscopeList:List<HoroscopeInfo> = emptyList()) : RecyclerView.Adapter<HoroscopeViewHolder>() {
+class HoroscopeAdapter(private var horoscopeList:List<HoroscopeInfo> = emptyList(),
+    private val onItemSelected:(HoroscopeInfo) ->Unit
+    ) : RecyclerView.Adapter<HoroscopeViewHolder>() {
     override fun getItemCount() = horoscopeList.size;
 
     //crea el viewHolder
@@ -23,7 +23,7 @@ class HoroscopeAdapter(private var horoscopeList:List<HoroscopeInfo> = emptyList
     //Indica que pintar al view Holder creado
     override fun onBindViewHolder(holder: HoroscopeViewHolder, position: Int) {
         //sen encarga de decirle al view holder que pintar
-        holder.render(horoscopeList[position]);//le pasamos un obj de la lista a la vez
+        holder.render(horoscopeList[position], onItemSelected);//le pasamos un obj de la lista a la vez
     }
 
     fun updateList(list: List<HoroscopeInfo>){

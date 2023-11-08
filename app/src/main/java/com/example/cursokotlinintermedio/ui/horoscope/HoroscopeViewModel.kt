@@ -1,6 +1,7 @@
 package com.example.cursokotlinintermedio.ui.horoscope
 
 import androidx.lifecycle.ViewModel
+import com.example.cursokotlinintermedio.data.providers.HoroscopeProvider
 import com.example.cursokotlinintermedio.domain.model.HoroscopeInfo
 import com.example.cursokotlinintermedio.domain.model.HoroscopeInfo.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,7 +11,8 @@ import javax.inject.Inject
 
 
 @HiltViewModel //indica que es un elemento viewModel inyectable
-class HoroscopeViewModel @Inject constructor() :ViewModel() {
+class HoroscopeViewModel @Inject constructor(private val horoscopeProvider: HoroscopeProvider) :ViewModel() {
+                                                    //inyectamos el horoscopeProvider
 
     //inicializamos de forma vacia el flow que almacenara los datos que representan
     //el estado, en otras palabras los datos recibidos de alguna fuente y que se
@@ -24,12 +26,7 @@ class HoroscopeViewModel @Inject constructor() :ViewModel() {
     init {
         //metodo especial de los viewModel, es como el onCreate de Activities
         //se ejecuta al inicializar un objeto
-        _horoscopos.value = listOf( //en este caso inicializamos el estado con 3 objetos
-            Aries,Tauro,Gemini,
-            Aquarius,Cancer,Capricorn,
-            Leo,Libra,Pices,
-            Sagittarius, Scorpio, Virgo
-        );
+        _horoscopos.value =  horoscopeProvider.getHoroscopes(); //inicializamos con el provider inyectado
     }
 
 }

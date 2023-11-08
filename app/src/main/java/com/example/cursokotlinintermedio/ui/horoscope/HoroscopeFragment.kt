@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -58,12 +59,11 @@ class HoroscopeFragment : Fragment() {
         initRecycleView();
     }
     private fun initRecycleView() {
-        adapter = HoroscopeAdapter(); //inicializamos la lista
-        /*binding.rvHoroscope.apply{
-            layoutManager = LinearLayoutManager(context);//organiza los item del recycleview, en este caso esta en vertical
-            adapter = this.adapter; //agragmos el adaptador a la vista
-        }*/
-        //binding.rvHoroscope.layoutManager = LinearLayoutManager(context)
+        //inicializamos la lista, pero pasamos una funcion que realizara cada item al ser precionado, solo la funcion a ejecutar
+        adapter = HoroscopeAdapter(onItemSelected = {
+            item -> Toast.makeText(context, getString(item.name),Toast.LENGTH_LONG).show();
+        });
+        //binding.rvHoroscope.layoutManager = LinearLayoutManager(context) //organiza los item del recycleview, en este caso esta en vertical
         binding.rvHoroscope.layoutManager = GridLayoutManager(context, 2); //cambiamos el linear por un Grid con 2 column
         binding.rvHoroscope.adapter = adapter
     }
