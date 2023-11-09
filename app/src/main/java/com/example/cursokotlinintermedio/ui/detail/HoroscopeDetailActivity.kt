@@ -10,10 +10,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.navArgs
 import com.example.cursokotlinintermedio.R
 import com.example.cursokotlinintermedio.databinding.ActivityHoroscopeDetailBinding
-import com.example.cursokotlinintermedio.databinding.ActivityMainBinding
-import dagger.hilt.EntryPoint
+import com.example.cursokotlinintermedio.domain.model.HoroscopeModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -30,7 +28,7 @@ class HoroscopeDetailActivity : AppCompatActivity() {
         binding = ActivityHoroscopeDetailBinding.inflate(layoutInflater);
         setContentView(binding.root);
         initUI();
-        horoscopeDetailViewModel.getHoroscope(args.type.name);
+        horoscopeDetailViewModel.getHoroscope(args.type);
     }
 
     private fun initUI() {
@@ -70,5 +68,20 @@ class HoroscopeDetailActivity : AppCompatActivity() {
         binding.progressBar.isVisible = false;
         binding.tvTitle.text = state.prediction.sign;
         binding.tvBody.text = state.prediction.horoscope;
+        val img = when(state.horoscopeModel){
+            HoroscopeModel.Aries -> R.drawable.detail_aries;
+            HoroscopeModel.Tauro -> R.drawable.detail_taurus
+            HoroscopeModel.Gemini -> R.drawable.detail_gemini;
+            HoroscopeModel.Aquarius -> R.drawable.detail_aquarius
+            HoroscopeModel.Cancer -> R.drawable.detail_cancer;
+            HoroscopeModel.Capricorn -> R.drawable.detail_capricorn
+            HoroscopeModel.Leo -> R.drawable.detail_leo;
+            HoroscopeModel.Libra -> R.drawable.detail_libra;
+            HoroscopeModel.Pices -> R.drawable.detail_pisces;
+            HoroscopeModel.Sagittarius -> R.drawable.detail_sagittarius;
+            HoroscopeModel.Scorpio -> R.drawable.detail_scorpio;
+            HoroscopeModel.Virgo -> R.drawable.detail_virgo;
+        }
+        binding.ivDetail.setImageResource(img);
     }
 }

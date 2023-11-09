@@ -1,11 +1,12 @@
 package com.example.cursokotlinintermedio.ui.detail
 
+import com.example.cursokotlinintermedio.domain.model.HoroscopeModel
 import com.example.cursokotlinintermedio.domain.model.PredictionModel
 
 sealed class HoroscopeDetailState {
     data object Loading:HoroscopeDetailState();
     data class Error(val error: String):HoroscopeDetailState();
-    data class Success(val prediction: PredictionModel):HoroscopeDetailState();
+    data class Success(val prediction: PredictionModel, val horoscopeModel: HoroscopeModel):HoroscopeDetailState();
 }
 //Debemos definir los estado por lo que puede pasar cada pantalla
 //me recuerda a block en flutter.

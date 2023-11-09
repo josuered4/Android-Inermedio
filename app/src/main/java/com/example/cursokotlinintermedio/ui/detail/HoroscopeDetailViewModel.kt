@@ -2,6 +2,7 @@ package com.example.cursokotlinintermedio.ui.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.cursokotlinintermedio.domain.model.HoroscopeModel
 import com.example.cursokotlinintermedio.domain.usecase.GetPredictionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,16 +19,18 @@ class HoroscopeDetailViewModel @Inject constructor(private val getPredictionUseC
     private val _state = MutableStateFlow<HoroscopeDetailState>(HoroscopeDetailState.Loading);
     val state: StateFlow<HoroscopeDetailState> = _state; //Creamos la propiedad que sera visible.
 
-    fun getHoroscope(sign:String){
+    lateinit var horoscope:HoroscopeModel;
+    fun getHoroscope(sign: HoroscopeModel){
+        horoscope = sign;
         viewModelScope.launch{ //lanzamos una corrutina a nivel de viewModel, en el hilo de UI
             //HILO UI
             _state.value = HoroscopeDetailState.Loading;
             val result = withContext(Dispatchers.IO){ //HILO SEGUNDARIO O S.O.
-                    getPredictionUseCase(sign);
+                    getPredictionUseCase(sign.name);
                 }
             //HILO UI
             if(result!=null){
-                _state.value = HoroscopeDetailState.Success(result);
+                _state.value = HoroscopeDetailState.Success(result, horoscope);
             }else{
                 _state.value = HoroscopeDetailState.Error("Error de peticion");
             }
