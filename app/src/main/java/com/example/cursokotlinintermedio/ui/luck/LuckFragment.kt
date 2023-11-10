@@ -1,6 +1,7 @@
 package com.example.cursokotlinintermedio.ui.luck
 
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,15 +17,20 @@ import androidx.core.view.isVisible
 import com.example.cursokotlinintermedio.R
 import com.example.cursokotlinintermedio.databinding.FragmentHoroscopeBinding
 import com.example.cursokotlinintermedio.databinding.FragmentLuckBinding
+import com.example.cursokotlinintermedio.ui.prodivers.RandomCardProvider
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
 import java.util.*
+import javax.inject.Inject
 
 @AndroidEntryPoint //esta clase sera inyectada
 class LuckFragment : Fragment() {
     private var _binding: FragmentLuckBinding? = null;
     private val binding get() = _binding!!;
 
+    @Inject
+    lateinit var randomCardProvider: RandomCardProvider; //de esta manera se inyectan clases con @AndroidEntryPoint
+    //creo por el ciclo de vida del componente
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,7 +45,28 @@ class LuckFragment : Fragment() {
     }
 
     private fun initUI() {
+        preparePrediction();
         initListeners();
+    }
+
+    private fun preparePrediction() {
+        val luck = randomCardProvider.getLucky();
+        luck?.let { //para ejecutar en caso de no ser nulo
+            val currentPrediction = getString(luck.text);
+            binding.tvLucky.text = currentPrediction;
+            binding.ivLuckyCard.setImageResource(luck.img);
+            binding.tvShare.setOnClickListener { shareResult(currentPrediction) }
+        }
+    }
+
+    private fun shareResult(currentPrediction: String) {
+        val sendIntent = Intent().apply{//creamos el objeto a compartir
+            action = Intent.ACTION_SEND;
+            putExtra(Intent.EXTRA_TEXT, currentPrediction);
+            type = "text/plain";
+        }
+        val shareIntent = Intent.createChooser(sendIntent, null); //este es el que comparte
+        startActivity(shareIntent); //iniciamos a compartir
     }
 
     private fun initListeners() {
